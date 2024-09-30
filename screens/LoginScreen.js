@@ -2,15 +2,22 @@ import React from 'react';
 import { View, Text, Button } from 'react-native';
 
 const LoginScreen = ({ navigation }) => {
-  const handleLogin = () => {
-    // Aquí puedes agregar lógica de autenticación si lo necesitas
-    navigation.navigate('Tabs');
+  const handleIniciarSesion = () => {
+    navigation.navigate('InicioSesion');
   };
 
+  const handleRegistro = () => {
+    navigation.navigate('Registro');
+  };
+
+ 
+ 
   return (
     <View>
       <Text>Login Screen</Text>
-      <Button title="Login" onPress={handleLogin} />
+      <Button title="Iniciar Sesión" onPress={handleIniciarSesion} />
+      <Button title="Registro" onPress={handleRegistro} />
+      <Button title="Continuar a Tabs" onPress={() => navigation.navigate('Tabs')} />
     </View>
   );
 };
