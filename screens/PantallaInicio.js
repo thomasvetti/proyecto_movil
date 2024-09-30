@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, Button } from 'react-native';
 
-const LoginScreen = ({ navigation }) => {
-  const handleIniciarSesion = () => {
+const PantallaInicio = ({ navigation }) => {
+  const inicioSesion = () => {
     navigation.navigate('InicioSesion');
   };
 
@@ -15,11 +15,11 @@ const LoginScreen = ({ navigation }) => {
   return (
     <View>
       <Text>Login Screen</Text>
-      <Button title="Iniciar Sesión" onPress={handleIniciarSesion} />
+      <Button title="Iniciar Sesión" onPress={inicioSesion} />
       <Button title="Registro" onPress={handleRegistro} />
-      <Button title="Continuar a Tabs" onPress={() => navigation.navigate('Tabs')} />
+      <Button title="Continuar sin iniciar sesion" onPress={() => navigation.navigate('Tabs')} />
     </View>
   );
 };
 
-export default LoginScreen;
+export default PantallaInicio;

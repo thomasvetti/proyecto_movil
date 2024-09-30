@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity,ScrollView } from 'react-native';
 
 
-const HomeScreen = ({ navigation }) => {
+const FeedPantalla = ({ navigation }) => {
   const items = [
     {
       id: 1,
@@ -95,4 +95,4 @@ const styles = StyleSheet.create({
     color: '#2c3e50',
   },
 });
-export default HomeScreen;
+export default FeedPantalla;
