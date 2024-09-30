@@ -1,15 +1,15 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 
-const DetailScreen = ({ route }) => {
+const DetallesPantalla = ({ route }) => {
   const { item } = route.params;
 
   return (
     <View style={styles.container}>
       <Image source={item.image} style={styles.image} />
-      <Text style={styles.title}>{item.title}</Text>
-      <Text style={styles.description}>{item.description}</Text>
-      <Text style={styles.rating}>Rating: {item.rating}</Text>
+      <Text style={styles.titulo}>{item.titulo}</Text>
+      <Text style={styles.descripcion}>{item.descripcion}</Text>
+      <Text style={styles.calificacion}>Rating: {item.calificacion}</Text>
      
     </View>
   );
@@ -44,4 +44,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DetailScreen;
+export default DetallesPantalla;

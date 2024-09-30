@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Button, Switch, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const SettingsScreen = ({ navigation }) => {
+const ConfiguracionPantalla = ({ navigation }) => {
  
   const [notificationsEnabled, setNotificationsEnabled] = useState(true); // Estado para las notificaciones
 
@@ -70,4 +70,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SettingsScreen;
+export default ConfiguracionPantalla;

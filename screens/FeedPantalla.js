@@ -6,23 +6,23 @@ const FeedPantalla = ({ navigation }) => {
   const items = [
     {
       id: 1,
-      title: "aqui va el titulo",
-      description: "aqui va la descripcion",
-      rating: "★★★★☆",
+      titulo: "aqui va el titulo",
+      descripcion: "aqui va la descripcion",
+      calificacion: "★★★★☆",
       image: require('../assets/esd.jpg'), 
     },
     {
       id: 2,
-      title: "aqui va el titulo",
-      description: "aqui va la descripcion",
-      rating: "★★★★★",
+      titulo: "aqui va el titulo",
+      descripcion: "aqui va la descripcion",
+      calificacion: "★★★★★",
       image: require('../assets/esd.jpg'),
     },
     {
       id: 3,
-      title: "aqui va el titulo",
-      description: "aqui va la descripcion",
-      rating: "★★★☆☆",
+      titulo: "aqui va el titulo",
+      descripcion: "aqui va la descripcion",
+      calificacion: "★★★☆☆",
       image: require('../assets/esd.jpg'),
     },
   ];
@@ -34,13 +34,13 @@ const FeedPantalla = ({ navigation }) => {
         <TouchableOpacity 
           key={item.id} 
           style={styles.card} 
-          onPress={() => navigation.navigate('DetailScreen', { item })}
+          onPress={() => navigation.navigate('DetallesPantalla', { item })}
         >
           <Image source={item.image} style={styles.image} />
           <View style={styles.textContainer}>
-            <Text style={styles.title}>{item.title}</Text>
-            <Text style={styles.description}>{item.description}</Text>
-            <Text style={styles.rating}>Rating: {item.rating}</Text>
+            <Text style={styles.titulo}>{item.titulo}</Text>
+            <Text style={styles.descripcion}>{item.descripcion}</Text>
+            <Text style={styles.calificacion}>calificacion: {item.calificacion}</Text>
           </View>
         </TouchableOpacity>
       ))}
@@ -83,14 +83,14 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     justifyContent: 'center',
   },
-  title: {
+  titulo: {
     fontSize: 16,
     fontWeight: 'bold',
   },
-  description: {
+  descripcion: {
     color: '#666',
   },
-  rating: {
+  calificacion: {
     marginTop: 5,
     color: '#2c3e50',
   },

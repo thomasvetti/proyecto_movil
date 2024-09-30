@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Button, TextInput, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const ProfileScreen = ({ navigation }) => {
+const PerfilPantalla = ({ navigation }) => {
   const [infoUsuario, asignarInfoUsuario] = useState(null);
   const [EditarPerfil, AsingarEditarPerfil] = useState(false);
   const [CambiarContraseña, AsginarCambiarContraseña] = useState(false);
@@ -130,4 +130,4 @@ const ProfileScreen = ({ navigation }) => {
   );
 };
 
-export default ProfileScreen;
+export default PerfilPantalla;

@@ -6,7 +6,7 @@ const PantallaInicio = ({ navigation }) => {
     navigation.navigate('InicioSesion');
   };
 
-  const handleRegistro = () => {
+  const RealizarRegistro = () => {
     navigation.navigate('Registro');
   };
 
@@ -16,7 +16,7 @@ const PantallaInicio = ({ navigation }) => {
     <View>
       <Text>Login Screen</Text>
       <Button title="Iniciar Sesión" onPress={inicioSesion} />
-      <Button title="Registro" onPress={handleRegistro} />
+      <Button title="Registro" onPress={RealizarRegistro} />
       <Button title="Continuar sin iniciar sesion" onPress={() => navigation.navigate('Tabs')} />
     </View>
   );

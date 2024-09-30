@@ -9,9 +9,10 @@ import InicioSesion from './screens/InicioSesion';
 import Registro from './screens/Registro';
 
 import FeedPantalla from './screens/FeedPantalla';
-import SettingsScreen from './screens/SettingsScreen';
-import ProfileScreen from './screens/ProfileScreen';
-import DetailScreen from './screens/DetailScreen';
+import ConfiguracionPantalla from './screens/ConfiguracionPantalla';
+import BuscarPantalla from './screens/BuscarPantalla';
+import PerfilPantalla from './screens/PerfilPantalla';
+import DetallesPantalla from './screens/DetallesPantalla';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -19,9 +20,11 @@ const Tab = createBottomTabNavigator();
 const TabNavigator = () => {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Home" component={FeedPantalla} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen name="Feed" component={FeedPantalla} />
+      <Tab.Screen name="Buscar" component={BuscarPantalla}/>
+      <Tab.Screen name="Configuración" component={ConfiguracionPantalla} />
+      <Tab.Screen name="Perfil" component={PerfilPantalla} />
+    
     </Tab.Navigator>
   );
 };
@@ -38,7 +41,7 @@ const App = () => {
         <Stack.Screen name="Tabs" component={TabNavigator} options={{ headerShown: false }} />
 
         
-        <Stack.Screen name="DetailScreen" component={DetailScreen} options={{ title: 'Detalles' }} />
+        <Stack.Screen name="DetallesPantalla" component={DetallesPantalla} options={{ title: 'Detalles' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
