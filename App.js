@@ -11,6 +11,7 @@ import Registro from './screens/Registro';
 import HomeScreen from './screens/HomeScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import DetailScreen from './screens/DetailScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -29,14 +30,17 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="InicioSesion" component={InicioSesion} />
-        <Stack.Screen name="Registro" component={Registro} />
+        <Stack.Screen name="Login" component={LoginScreen} options={{ title: 'Iniciar Sesión' }} />
+        <Stack.Screen name="InicioSesion" component={InicioSesion} options={{ title: 'Inicio de Sesión' }} />
+        <Stack.Screen name="Registro" component={Registro} options={{ title: 'Registro' }} />
         
-        <Stack.Screen name="Tabs" component={TabNavigator} />
+        {/* Stack para las pantallas con Tabs */}
+        <Stack.Screen name="Tabs" component={TabNavigator} options={{ headerShown: false }} />
+
+        {/* Stack para la pantalla de detalles */}
+        <Stack.Screen name="DetailScreen" component={DetailScreen} options={{ title: 'Detalles' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
-
 export default App;
