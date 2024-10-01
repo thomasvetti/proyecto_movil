@@ -1,46 +1,71 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, SafeAreaView, ImageBackground } from 'react-native';
 
 const DetallesPantalla = ({ route }) => {
   const { item } = route.params;
 
   return (
-    <View style={styles.container}>
-      <Image source={item.image} style={styles.image} />
-      <Text style={styles.titulo}>{item.titulo}</Text>
-      <Text style={styles.descripcion}>{item.descripcion}</Text>
-      <Text style={styles.calificacion}>Rating: {item.calificacion}</Text>
-     
-    </View>
+    <ImageBackground 
+      source={require('../assets/file(2).jpg')} // Cambia esto por tu imagen de fondo preferida
+      style={styles.background}
+    >
+      <SafeAreaView style={styles.container}>
+        <Image source={item.image} style={styles.image} />
+        
+        {/* Contenedor para el título, calificación y descripción adicional */}
+        <View style={styles.textContainer}>
+          <Text style={styles.titulo}>{item.titulo}</Text>
+          <Text style={styles.calificacion}>Calificación: {item.calificacion}</Text>
+          {/* Descripción adicional */}
+          <Text style={styles.descripcionAdicional}>
+          Un texto es una composición de signos codificados en un sistema de escritura que forma una unidad de sentido. También es una composición de caracteres imprimibles generados por un algoritmo de cifrado que, aunque no tienen sentido para cualquier persona, sí puede ser descifrado por su destinatario original.
+          </Text>
+        </View>
+      </SafeAreaView>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    resizeMode: 'cover',
+  },
   container: {
     flex: 1,
     padding: 20,
-    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Fondo semitransparente para el contenedor principal
   },
   image: {
     width: '100%',
     height: 200,
-    borderRadius: 8,
+    borderRadius: 10,
     marginBottom: 20,
   },
-  title: {
+  textContainer: {
+    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Fondo blanco semitransparente
+    padding: 15,
+    borderRadius: 15,
+    alignItems: 'center', // Centrar el contenido
+    marginTop: 10,
+  },
+  titulo: {
     fontSize: 24,
     fontWeight: 'bold',
-  },
-  description: {
-    fontSize: 16,
-    marginTop: 10,
-    color: '#666',
+    color: '#333',
     textAlign: 'center',
   },
-  rating: {
-    marginTop: 20,
+  calificacion: {
     fontSize: 18,
     color: '#2c3e50',
+    marginTop: 10,
+    textAlign: 'center',
+  },
+  descripcionAdicional: {
+    fontSize: 14,
+    color: '#888',
+    marginTop: 15,
+    textAlign: 'center',
   },
 });
 

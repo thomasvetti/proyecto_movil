@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, TextInput, Alert } from 'react-native';
+import { View, Text, Button, TextInput, Alert, TouchableOpacity, StyleSheet, ImageBackground } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const PerfilPantalla = ({ navigation }) => {
@@ -56,78 +56,160 @@ const PerfilPantalla = ({ navigation }) => {
     navigation.navigate('Login');
   };
 
+  const ButtonComponent = ({ title, onPress }) => (
+    <TouchableOpacity style={styles.button} onPress={onPress}>
+      <Text style={styles.buttonText}>{title}</Text>
+    </TouchableOpacity>
+  );
+
   if (EditarPerfil) {
     return (
-      <View>
-        <Text>Editar Perfil</Text>
-        <TextInput 
-          placeholder="Nuevo Correo"
-          value={correoNuevo}
-          onChangeText={asignarCorreoNuevo}
-          style={{ borderWidth: 1, margin: 10, padding: 5 }} 
-        />
-        <Button title="Guardar Cambios" onPress={handleSaveProfile} />
-        <Button title="Cancelar" onPress={() => AsingarEditarPerfil(false)} />
-      </View>
+      <ImageBackground 
+        source={require('../assets/file(2).jpg')} // Cambia esto por tu fondo preferido
+        style={styles.background}
+      >
+        <View style={styles.overlay} />
+        <View style={styles.innerContainer}>
+          <Text style={styles.header}>Editar Perfil</Text>
+          <TextInput 
+            placeholder="Nuevo Correo"
+            value={correoNuevo}
+            onChangeText={asignarCorreoNuevo}
+            style={styles.input} 
+          />
+          <ButtonComponent title="Guardar Cambios" onPress={handleSaveProfile} />
+          <ButtonComponent title="Cancelar" onPress={() => AsingarEditarPerfil(false)} />
+        </View>
+      </ImageBackground>
     );
   }
 
   if (CambiarContraseña) {
     return (
-      <View>
-        <Text>Cambiar Contraseña</Text>
-        <TextInput 
-          placeholder="Contraseña Actual"
-          value={contraseñaActual}
-          onChangeText={AsignarcontraseñaActual}
-          secureTextEntry
-          style={{ borderWidth: 1, margin: 10, padding: 5 }} 
-        />
-        <TextInput 
-          placeholder="Nueva Contraseña"
-          value={nuevaContraseña}
-          onChangeText={asignarNuevaContraseña}
-          secureTextEntry
-          style={{ borderWidth: 1, margin: 10, padding: 5 }} 
-        />
-        <TextInput 
-          placeholder="Confirmar Nueva Contraseña"
-          value={confirmnuevaContraseña}
-          onChangeText={setConfirmnuevaContraseña}
-          secureTextEntry
-          style={{ borderWidth: 1, margin: 10, padding: 5 }} 
-        />
-        <Button title="Cambiar Contraseña" onPress={handleChangePassword} />
-        <Button title="Cancelar" onPress={() => AsginarCambiarContraseña(false)} />
-      </View>
+      <ImageBackground 
+        source={require('../assets/file(2).jpg')} // Cambia esto por tu fondo preferido
+        style={styles.background}
+      >
+        <View style={styles.overlay} />
+        <View style={styles.innerContainer}>
+          <Text style={styles.header}>Cambiar Contraseña</Text>
+          <TextInput 
+            placeholder="Contraseña Actual"
+            value={contraseñaActual}
+            onChangeText={AsignarcontraseñaActual}
+            secureTextEntry
+            style={styles.input} 
+          />
+          <TextInput 
+            placeholder="Nueva Contraseña"
+            value={nuevaContraseña}
+            onChangeText={asignarNuevaContraseña}
+            secureTextEntry
+            style={styles.input} 
+          />
+          <TextInput 
+            placeholder="Confirmar Nueva Contraseña"
+            value={confirmnuevaContraseña}
+            onChangeText={setConfirmnuevaContraseña}
+            secureTextEntry
+            style={styles.input} 
+          />
+          <ButtonComponent title="Cambiar Contraseña" onPress={handleChangePassword} />
+          <ButtonComponent title="Cancelar" onPress={() => AsginarCambiarContraseña(false)} />
+        </View>
+      </ImageBackground>
     );
   }
 
   return (
-    <View>
-      {infoUsuario ? (
-        <>
-          <Text>Correo: {infoUsuario.email}</Text>
-        </>
-      ) : (
-        <Text>Cargando perfil...</Text>
-      )}
-
-      <Button title="Editar perfil" onPress={() => AsingarEditarPerfil(true)} />
-      <Button title="Cambiar Contraseña" onPress={() => AsginarCambiarContraseña(true)} />
-      <Button title="Eliminar Cuenta" onPress={() => 
-        Alert.alert(
-          "¿Seguro que deseas eliminar tu cuenta?",
-          "",
-          [
-            { text: "Cancelar", style: "cancel" },
-            { text: "Eliminar", onPress: handleDeleteAccount }
-          ]
-        )
-      } />
-      <Button title="Cerrar sesión" onPress={handleLogout} />
-    </View>
+    <ImageBackground 
+      source={require('../assets/file(2).jpg')} // Cambia esto por tu fondo preferido
+      style={styles.background}
+    >
+      <View style={styles.overlay} />
+      <View style={styles.innerContainer}>
+        {infoUsuario ? (
+          <>
+            <Text style={styles.infoText}>Correo: {infoUsuario.email}</Text>
+          </>
+        ) : (
+          <Text>Cargando perfil...</Text>
+        )}
+        <ButtonComponent title="Editar perfil" onPress={() => AsingarEditarPerfil(true)} />
+        <ButtonComponent title="Cambiar Contraseña" onPress={() => AsginarCambiarContraseña(true)} />
+        <ButtonComponent title="Eliminar Cuenta" onPress={() => 
+          Alert.alert(
+            "¿Seguro que deseas eliminar tu cuenta?",
+            "",
+            [
+              { text: "Cancelar", style: "cancel" },
+              { text: "Eliminar", onPress: handleDeleteAccount }
+            ]
+          )
+        } />
+        <ButtonComponent title="Cerrar sesión" onPress={handleLogout} />
+      </View>
+    </ImageBackground>
   );
 };
+
+const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Color negro con opacidad
+  },
+  innerContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+    width: '90%', // Ajustar el ancho
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: 'white', // Color del texto del encabezado
+  },
+  input: {
+    borderWidth: 1,
+    margin: 10,
+    padding: 10,
+    width: '100%', // Ajustar el ancho
+    borderRadius: 5,
+    backgroundColor: 'white', // Color de fondo del campo de texto
+  },
+  button: {
+    flexDirection: 'row',
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    paddingVertical: 12,
+    paddingHorizontal: 25,
+    borderRadius: 25,
+    marginBottom: 15,
+    alignItems: 'center',
+    width: '80%',
+    justifyContent: 'center',
+  },
+  buttonText: {
+    fontSize: 18,
+    color: 'black',
+    fontWeight: 'bold',
+    marginLeft: 10,
+  },
+  infoText: {
+    fontSize: 18,
+    marginBottom: 10,
+    color: 'white', // Color del texto de información
+  },
+});
 
 export default PerfilPantalla;
