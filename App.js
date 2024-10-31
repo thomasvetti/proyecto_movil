@@ -37,6 +37,7 @@ const TabNavigator = () => {
         component={FeedPantalla}
         options={{
           tabBarIcon: ({ color }) => <Icon name="home" size={24} color={color} />, // Ícono para Feed
+          headerShown: false, // 
         }}
       />
       <Tab.Screen
@@ -44,6 +45,7 @@ const TabNavigator = () => {
         component={BuscarPantalla}
         options={{
           tabBarIcon: ({ color }) => <Icon name="search" size={24} color={color} />, // Ícono para Buscar
+          headerShown: false, // 
         }}
       />
       <Tab.Screen
@@ -51,6 +53,7 @@ const TabNavigator = () => {
         component={ConfiguracionPantalla}
         options={{
           tabBarIcon: ({ color }) => <Icon name="cog" size={24} color={color} />, // Ícono para Configuración
+          headerShown: false, // 
         }}
       />
       <Tab.Screen
@@ -58,6 +61,7 @@ const TabNavigator = () => {
         component={PerfilPantalla}
         options={{
           tabBarIcon: ({ color }) => <Icon name="user" size={24} color={color} />, // Ícono para Perfil
+          headerShown: false, // 
         }}
       />
     </Tab.Navigator>
@@ -68,14 +72,41 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Login" component={PantallaInicio} options={{ title: 'Bienvenido' }} />
-        <Stack.Screen name="InicioSesion" component={InicioSesion} options={{ title: 'Inicio de Sesión' }} />
-        <Stack.Screen name="Registro" component={Registro} options={{ title: 'Registro' }} />
-        <Stack.Screen name="Tabs" component={TabNavigator} options={{ headerShown: false }} />
-        <Stack.Screen name="DetallesPantalla" component={DetallesPantalla} options={{ title: 'Detalles' }} />
+        <Stack.Screen 
+          name="Login" 
+          component={PantallaInicio} 
+          options={{ headerShown: false }} // Aquí ocultamos la barra de encabezado
+        />
+        <Stack.Screen 
+          name="InicioSesion" 
+          component={InicioSesion} 
+          options={{
+            headerTitle: '', 
+            headerTransparent: true, }} 
+        />
+        <Stack.Screen 
+          name="Registro" 
+          component={Registro} 
+          options={{
+            headerTitle: '', 
+            headerTransparent: true, }} 
+        />
+        <Stack.Screen 
+          name="Tabs" 
+          component={TabNavigator} 
+          options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+          name="DetallesPantalla" 
+          component={DetallesPantalla} 
+          options={{
+            headerTitle: '', 
+            headerTransparent: true, }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
 
 export default App;
+

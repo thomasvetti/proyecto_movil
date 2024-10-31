@@ -1,109 +1,113 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, SafeAreaView, ImageBackground } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import React, { useContext, useState } from 'react';
+import { View, Text, TextInput, ImageBackground, StyleSheet, Pressable, Platform, Alert } from 'react-native';
+import { login } from '../util/auth';
+import { AuthContext } from '../context/auth-context';
+
+const backgroundImage = require('../assets/file(1).jpg');
 
 const InicioSesion = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const authCtx = useContext(AuthContext); 
 
-  useEffect(() => {
-    const loadData = async () => {
-      const storedEmail = await AsyncStorage.getItem('userEmail');
-      const storedPassword = await AsyncStorage.getItem('userPassword');
-
-      if (storedEmail && storedPassword) {
-        setEmail(storedEmail);
-        setPassword(storedPassword);
-      }
-    };
-
-    loadData();
-  }, []);
-
-  const handleContinue = async () => {
-    const storedEmail = await AsyncStorage.getItem('userEmail');
-    const storedPassword = await AsyncStorage.getItem('userPassword');
-
-    if (email === storedEmail && password === storedPassword) {
-      navigation.navigate('Tabs');
-    } else {
-      alert('Credenciales incorrectas');
+  async function handleLogin() {
+    if (!email || !password) {
+      Alert.alert('Error', 'Please enter both email and password', [{ text: 'OK' }]);
+      return;
     }
-  };
+
+    try {
+      const token = await login(email, password);
+      authCtx.login(token); 
+      navigation.navigate('Tabs');
+    } catch (error) {
+      Alert.alert('Error', 'Login failed. Please try again.');
+    }
+  }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ImageBackground
-        source={require('../assets/file(1).jpg')}
-        style={styles.background}
-      >
-        <View style={styles.overlay}>
-          <Text style={styles.text}>Inicio de Sesión</Text>
+    <ImageBackground 
+      source={backgroundImage} 
+      style={styles.background}
+      resizeMode="cover"
+    >
+      <View style={styles.overlay} />
+      <View style={styles.innerContainer}>
+        <Text style={styles.header}>Welcome to the App</Text>
+        <Text style={styles.infoText}>Please log in to continue</Text>
 
-          <View style={styles.inputContainer}>
-            <Icon name="envelope" size={20} color="gray" style={styles.icon} />
-            <TextInput
-              placeholder=" Correo"
-              value={email}
-              onChangeText={setEmail}
-              style={styles.input}
-              keyboardType="email-address"
-              autoCapitalize="none"
-            />
-          </View>
+        {/* Email Input */}
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          placeholderTextColor="#e67e22"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          autoCapitalize="none"
+        />
 
-          <View style={styles.inputContainer}>
-            <Icon name="lock" size={20} color="gray" style={styles.icon} />
-            <TextInput
-              placeholder=" Contraseña"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry
-              style={styles.input}
-            />
-          </View>
+        {/* Password Input */}
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          placeholderTextColor="#e67e22"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+          autoCapitalize="none"
+        />
 
-          <TouchableOpacity style={styles.button} onPress={handleContinue}>
-            <Icon name="sign-in" size={20} color="black" />
-            <Text style={styles.buttonText}>Iniciar Sesión</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
-            <Icon name="arrow-left" size={20} color="black" />
-            <Text style={styles.buttonText}>Volver a Login</Text>
-          </TouchableOpacity>
-        </View>
-      </ImageBackground>
-    </SafeAreaView>
+        {/* Login Button */}
+        <Pressable
+          style={({ pressed }) => [
+            styles.button,
+            pressed ? { backgroundColor: 'rgba(255, 255, 255, 0.9)' } : null,
+          ]}
+          onPress={handleLogin}
+        >
+          <Text style={styles.buttonText}>Login</Text>
+        </Pressable>
+      </View>
+    </ImageBackground>
   );
 };
 
+
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  background: { flex: 1, resizeMode: 'cover' },
-  overlay: {
+  background: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
   },
-  text: {
-    fontSize: 24,
-    color: 'white',
-    marginBottom: 30,
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Color negro con opacidad
   },
-  inputContainer: {
-    flexDirection: 'row',
+  innerContainer: {
+    flex: 1,
     alignItems: 'center',
-    backgroundColor: '#fff',
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 25,
-    paddingHorizontal: 15,
+    justifyContent: 'center',
+    padding: 20,
+    width: '90%', // Ajustar el ancho
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: 'bold',
     marginBottom: 20,
-    height: 50,
-    width: '80%',
+    color: 'white', // Color del texto del encabezado
+  },
+  input: {
+    borderWidth: 1,
+    margin: 10,
+    padding: 10,
+    width: '100%', // Ajustar el ancho
+    borderRadius: 5,
+    backgroundColor: 'white', // Color de fondo del campo de texto
   },
   button: {
     flexDirection: 'row',
@@ -120,8 +124,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'black',
     fontWeight: 'bold',
-    marginLeft: 10,
+  },
+  infoText: {
+    fontSize: 18,
+    marginBottom: 10,
+    color: 'white', // Color del texto de información
   },
 });
+
+
 
 export default InicioSesion;

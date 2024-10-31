@@ -1,35 +1,38 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, SafeAreaView, ImageBackground } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, SafeAreaView, ImageBackground, ActivityIndicator } from 'react-native';
+import { getRestaurants } from '../util/bd'; // Asegúrate de ajustar la ruta a tu archivo de API
 
 const FeedPantalla = ({ navigation }) => {
-  const items = [
-    {
-      id: 1,
-      titulo: "Título 1",
-      descripcion: "Descripción   1",
-      calificacion: "★★★★☆",
-      image: require('../assets/esd.jpg'),
-    },
-    {
-      id: 2,
-      titulo: "Título 2",
-      descripcion: "Descripción  ",
-      calificacion: "★★★★★",
-      image: require('../assets/esd.jpg'),
-    },
-    {
-      id: 3,
-      titulo: "Título d 3",
-      descripcion: "Descripción del ítem 3",
-      calificacion: "★★★☆☆",
-      image: require('../assets/esd.jpg'),
-    },
-  ];
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getRestaurants();
+        setItems(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <View style={styles.loaderContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <ImageBackground 
-        source={require('../assets/file(2).jpg')} // Cambia esto por tu fondo preferido
+        source={require('../assets/file(2).jpg')} // Fondo de pantalla
         style={styles.background}
       >
         <View style={styles.overlay}>
@@ -40,7 +43,7 @@ const FeedPantalla = ({ navigation }) => {
                 style={styles.card} 
                 onPress={() => navigation.navigate('DetallesPantalla', { item })}
               >
-                <Image source={item.image} style={styles.image} />
+                <Image source={{ uri: item.image }} style={styles.image} />
                 <View style={styles.textContainer}>
                   <Text style={styles.titulo}>{item.titulo}</Text>
                   <Text style={styles.descripcion}>{item.descripcion}</Text>
@@ -51,13 +54,14 @@ const FeedPantalla = ({ navigation }) => {
           </ScrollView>
         </View>
       </ImageBackground>
-    </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    
   },
   background: {
     flex: 1,
@@ -70,6 +74,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     width: '100%',
+    paddingTop: 50,
   },
   card: {
     flexDirection: 'row',
@@ -107,6 +112,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#2c3e50',
     marginTop: 10,
+  },
+  loaderContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

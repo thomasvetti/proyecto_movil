@@ -17,7 +17,7 @@ const PantallaInicio = ({ navigation }) => {
       {/* Hace la barra de estado transparente */}
       <StatusBar style="light" translucent={true} backgroundColor="transparent" />
       
-      <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         {/* Imagen de fondo */}
         <ImageBackground
           source={require('../assets/file(1).jpg')}  // Ruta de la imagen
@@ -45,7 +45,7 @@ const PantallaInicio = ({ navigation }) => {
             </TouchableOpacity>
           </View>
         </ImageBackground>
-      </SafeAreaView>
+      </View>
     </>
   );
 };

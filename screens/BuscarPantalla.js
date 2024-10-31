@@ -21,7 +21,7 @@ const BuscarPantalla = () => {
     };
 
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <ImageBackground 
                 source={require('../assets/file(2).jpg')} // Cambia esto por tu fondo preferido
                 style={styles.background}
@@ -55,7 +55,7 @@ const BuscarPantalla = () => {
                     />
                 </KeyboardAvoidingView>
             </ImageBackground>
-        </SafeAreaView>
+        </View>
     );
 };
 
