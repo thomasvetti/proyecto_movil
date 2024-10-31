@@ -74,13 +74,15 @@ const App = () => {
       <Stack.Navigator initialRouteName="Login">
         <Stack.Screen 
           name="Login" 
+          
           component={PantallaInicio} 
           options={{ headerShown: false }} // Aquí ocultamos la barra de encabezado
         />
         <Stack.Screen 
-          name="InicioSesion" 
+          name="InicioSesion"
           component={InicioSesion} 
           options={{
+            headerTintColor: 'white',
             headerTitle: '', 
             headerTransparent: true, }} 
         />
@@ -88,6 +90,7 @@ const App = () => {
           name="Registro" 
           component={Registro} 
           options={{
+            headerTintColor: 'white',
             headerTitle: '', 
             headerTransparent: true, }} 
         />
@@ -100,6 +103,7 @@ const App = () => {
           name="DetallesPantalla" 
           component={DetallesPantalla} 
           options={{
+            headerTintColor: 'white',
             headerTitle: '', 
             headerTransparent: true, }}
         />

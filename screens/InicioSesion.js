@@ -1,5 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { View, Text, TextInput, ImageBackground, StyleSheet, Pressable, Platform, Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 import { login } from '../util/auth';
 import { AuthContext } from '../context/auth-context';
 
@@ -12,19 +15,18 @@ const InicioSesion = ({ navigation }) => {
 
   async function handleLogin() {
     if (!email || !password) {
-      Alert.alert('Error', 'Please enter both email and password', [{ text: 'OK' }]);
+      Alert.alert('Error', 'Por favor, llene ambos campos', [{ text: 'OK' }]);
       return;
     }
-
     try {
       const token = await login(email, password);
+      await AsyncStorage.setItem('userEmail', email); // Guardar el email en AsyncStorage
       authCtx.login(token); 
       navigation.navigate('Tabs');
     } catch (error) {
-      Alert.alert('Error', 'Login failed. Please try again.');
+      Alert.alert('Error', 'Por favor, intente nuevamente.');
     }
   }
-
   return (
     <ImageBackground 
       source={backgroundImage} 
@@ -33,30 +35,36 @@ const InicioSesion = ({ navigation }) => {
     >
       <View style={styles.overlay} />
       <View style={styles.innerContainer}>
-        <Text style={styles.header}>Welcome to the App</Text>
-        <Text style={styles.infoText}>Please log in to continue</Text>
+        <Text style={styles.header}>Inicio sesión</Text>
+        <Text style={styles.infoText}>Por favor, inicie sesión para continuar </Text>
 
         {/* Email Input */}
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          placeholderTextColor="#e67e22"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
+        <View style={styles.inputContainer}>
+          <Icon name="envelope" size={20} color="gray" style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Correo"
+            placeholderTextColor="gray"
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+        </View>
 
         {/* Password Input */}
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          placeholderTextColor="#e67e22"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-          autoCapitalize="none"
-        />
+        <View style={styles.inputContainer}>
+          <Icon name="lock" size={20} color="gray" style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Contraseña"
+            placeholderTextColor="gray"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+            autoCapitalize="none"
+          />
+        </View>
 
         {/* Login Button */}
         <Pressable
@@ -66,7 +74,7 @@ const InicioSesion = ({ navigation }) => {
           ]}
           onPress={handleLogin}
         >
-          <Text style={styles.buttonText}>Login</Text>
+          <Text style={styles.buttonText}>Iniciar sesión</Text>
         </Pressable>
       </View>
     </ImageBackground>
@@ -86,28 +94,39 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Color negro con opacidad
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   innerContainer: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
-    width: '90%', // Ajustar el ancho
+    width: '90%',
   },
   header: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: 'white', // Color del texto del encabezado
+    color: 'white',
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: 25,
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    marginBottom: 15,
+    width: '100%',
+  },
+  icon: {
+    marginRight: 10,
+    color: 'gray',
   },
   input: {
-    borderWidth: 1,
-    margin: 10,
-    padding: 10,
-    width: '100%', // Ajustar el ancho
-    borderRadius: 5,
-    backgroundColor: 'white', // Color de fondo del campo de texto
+    flex: 1,
+    fontSize: 16,
+    color: '#000',
   },
   button: {
     flexDirection: 'row',
@@ -128,10 +147,8 @@ const styles = StyleSheet.create({
   infoText: {
     fontSize: 18,
     marginBottom: 10,
-    color: 'white', // Color del texto de información
+    color: 'white',
   },
 });
-
-
 
 export default InicioSesion;

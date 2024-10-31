@@ -1,8 +1,10 @@
 import React, { useState, useContext } from 'react';
-import { View, Text, TextInput, Alert, StyleSheet, ImageBackground, SafeAreaView, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Alert, StyleSheet, ImageBackground, Pressable, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { AuthContext } from '../context/auth-context';
 import { authenticate } from '../util/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const Registro = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -14,7 +16,8 @@ const Registro = ({ navigation }) => {
     if (password === confirmPassword) {
       try {
         const userId = await authenticate('signUp', email, password);
-        contextLogin(userId); // Inicia sesión tras el registro
+        await AsyncStorage.setItem('userEmail', email); // Guardar el email en AsyncStorage
+        contextLogin(userId);
         navigation.navigate('Tabs');
       } catch (error) {
         Alert.alert('Error', 'Ocurrió un problema en el registro. Inténtalo de nuevo.');
@@ -28,7 +31,8 @@ const Registro = ({ navigation }) => {
     <View style={styles.container}>
       <ImageBackground source={require('../assets/file(1).jpg')} style={styles.background}>
         <View style={styles.overlay}>
-          <Text style={styles.text}>Registro</Text>
+        <Text style={styles.header}>Registro</Text>
+          
 
           <View style={styles.inputContainer}>
             <Icon name="envelope" size={20} color="gray" style={styles.icon} />
@@ -64,23 +68,25 @@ const Registro = ({ navigation }) => {
             />
           </View>
 
-          <TouchableOpacity style={styles.button} onPress={handleRegister}>
-            <Icon name="user-plus" size={20} color="black" />
-            <Text style={styles.buttonText}>Registrar</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
-            <Icon name="arrow-left" size={20} color="black" />
-            <Text style={styles.buttonText}>Volver a Login</Text>
-          </TouchableOpacity>
+          {/* Login Button */}
+          <Pressable
+          style={({ pressed }) => [
+            styles.button,
+            pressed ? { backgroundColor: 'rgba(255, 255, 255, 0.9)' } : null,
+          ]}
+          onPress={handleRegister}
+        >
+          <Icon name="user-plus" size={20} color="black" style={styles.icon} />
+          <Text style={styles.buttonText}>Registro</Text>
+        </Pressable>
+          
         </View>
       </ImageBackground>
     </View>
   );
 };
 
-// Estilos como en el código anterior
-// Estilos modificados
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -126,21 +132,27 @@ const styles = StyleSheet.create({
   },
   button: {
     flexDirection: 'row',
-    backgroundColor: 'rgba(255, 255, 255, 0.85)',
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
     paddingVertical: 12,
-    paddingHorizontal: 20,
+    paddingHorizontal: 25,
     borderRadius: 25,
-    marginTop: 15,
+    marginBottom: 15,
     alignItems: 'center',
+    width: '80%',
     justifyContent: 'center',
-    width: '80%',  // Asegurar que los botones se mantengan centrados y uniformes
-    maxWidth: 300,  // Limitar el ancho máximo en pantallas grandes
   },
   buttonText: {
     fontSize: 18,
     color: 'black',
     fontWeight: 'bold',
-    marginLeft: 10,
+    textAlign: 'center', // Centrar el texto dentro del botón
+    width: '100%', // Asegura que el texto ocupe todo el espacio disponible en el botón
+  },
+   header: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: 'white',
   },
 });
 

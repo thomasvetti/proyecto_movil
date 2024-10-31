@@ -1,30 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Button, TextInput, Alert, TouchableOpacity, StyleSheet, ImageBackground } from 'react-native';
+import { View, Text, Alert, TouchableOpacity, StyleSheet, ImageBackground, TextInput } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const PerfilPantalla = ({ navigation }) => {
   const [infoUsuario, asignarInfoUsuario] = useState(null);
-  const [EditarPerfil, AsingarEditarPerfil] = useState(false);
   const [CambiarContraseña, AsginarCambiarContraseña] = useState(false);
-  const [correoNuevo, asignarCorreoNuevo] = useState('');
   const [contraseñaActual, AsignarcontraseñaActual] = useState('');
   const [nuevaContraseña, asignarNuevaContraseña] = useState('');
   const [confirmnuevaContraseña, setConfirmnuevaContraseña] = useState('');
 
   useEffect(() => {
     const loadinfoUsuario = async () => {
-      const email = await AsyncStorage.getItem('userEmail');
+      const email = await AsyncStorage.getItem('userEmail'); // Obtener el email desde AsyncStorage
       asignarInfoUsuario({ email });
     };
     loadinfoUsuario();
   }, []);
-
-  const handleSaveProfile = async () => {
-    await AsyncStorage.setItem('userEmail', correoNuevo);
-    asignarInfoUsuario({ email: correoNuevo });
-    AsingarEditarPerfil(false);
-    Alert.alert("Perfil actualizado");
-  };
 
   const handleChangePassword = async () => {
     const storedPassword = await AsyncStorage.getItem('userPassword');
@@ -61,28 +52,6 @@ const PerfilPantalla = ({ navigation }) => {
       <Text style={styles.buttonText}>{title}</Text>
     </TouchableOpacity>
   );
-
-  if (EditarPerfil) {
-    return (
-      <ImageBackground 
-        source={require('../assets/file(2).jpg')} // Cambia esto por tu fondo preferido
-        style={styles.background}
-      >
-        <View style={styles.overlay} />
-        <View style={styles.innerContainer}>
-          <Text style={styles.header}>Editar Perfil</Text>
-          <TextInput 
-            placeholder="Nuevo Correo"
-            value={correoNuevo}
-            onChangeText={asignarCorreoNuevo}
-            style={styles.input} 
-          />
-          <ButtonComponent title="Guardar Cambios" onPress={handleSaveProfile} />
-          <ButtonComponent title="Cancelar" onPress={() => AsingarEditarPerfil(false)} />
-        </View>
-      </ImageBackground>
-    );
-  }
 
   if (CambiarContraseña) {
     return (
@@ -129,13 +98,10 @@ const PerfilPantalla = ({ navigation }) => {
       <View style={styles.overlay} />
       <View style={styles.innerContainer}>
         {infoUsuario ? (
-          <>
-            <Text style={styles.infoText}>Correo: {infoUsuario.email}</Text>
-          </>
+          <Text style={styles.infoText}>Correo: {infoUsuario.email}</Text>
         ) : (
           <Text>Cargando perfil...</Text>
         )}
-        <ButtonComponent title="Editar perfil" onPress={() => AsingarEditarPerfil(true)} />
         <ButtonComponent title="Cambiar Contraseña" onPress={() => AsginarCambiarContraseña(true)} />
         <ButtonComponent title="Eliminar Cuenta" onPress={() => 
           Alert.alert(
